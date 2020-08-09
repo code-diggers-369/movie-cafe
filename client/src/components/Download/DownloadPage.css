@@ -1,0 +1,41 @@
+.div-border {
+  border: 1px solid white;
+}
+
+.poster-img {
+  width: 50%;
+}
+
+.div-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (max-width: 991px) {
+  .div-center {
+    margin-top: 50px;
+  }
+}
+
+.ss-img {
+  width: 70%;
+  border: 1px solid rgb(144, 144, 144);
+}
+
+.iframe-container {
+  overflow: hidden;
+  padding-top: 56.25%; /* 16:9*/
+  position: relative;
+  width: 70%;
+}
+
+.iframe-container iframe {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}

@@ -1,0 +1,31 @@
+.card-width {
+  width: 80%;
+}
+
+.card-width img {
+  transition: transform 0.5s ease;
+}
+
+.card-width:hover img {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.slide-show-img {
+  border: 1px solid #20374f;
+  border-radius: 15px;
+}
+
+.img-radius {
+  border-radius: 15px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .card-width {
+    width: 100%;
+  }
+}
