@@ -16,7 +16,7 @@ Here --> https://movie-cafe.herokuapp.com/
 
 ## For Admin Side Login
 
-Use Route <Domain>/A_D_M_I_N
+Use Route <Domain>/A_D_M_I_N ----
 Edit .env And Set Email, Password & Secret
 
 ## For Any Query
