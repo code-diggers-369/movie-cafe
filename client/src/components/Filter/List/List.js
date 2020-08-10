@@ -19,10 +19,10 @@ export default function List(props) {
     };
   }, []);
 
-  const trackScrolling = async () => {
+  const trackScrolling = () => {
     const listDiv = document.getElementById("scroll-tracker");
     if (isBottom(listDiv)) {
-      await setcount(count + 6);
+      setcount((value) => value + 8);
     }
   };
 
