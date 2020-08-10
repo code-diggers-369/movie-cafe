@@ -27,7 +27,7 @@ export default function List(props) {
   };
 
   const isBottom = (element) => {
-    return element.getBoundingClientRect().bottom <= window.innerHeight;
+    return element.getBoundingClientRect().bottom <= window.innerHeight + 2;
   };
 
   return (
