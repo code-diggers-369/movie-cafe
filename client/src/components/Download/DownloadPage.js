@@ -92,7 +92,7 @@ export default function DownloadPage() {
                 target="_blank"
                 className="btn btn-block btn-light"
               >
-                {size[i]}
+                {list.Quality}
               </a>
             ))}
           </div>
