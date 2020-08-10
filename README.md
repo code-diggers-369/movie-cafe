@@ -5,7 +5,11 @@ Movie Downloading Webapp In MERN Stack. React Js For Front End, Node Js And Node
 Here --> https://movie-cafe.herokuapp.com/
 
 ## Screen Shot Of App
+In Desktop
 ![GitHub Logo](/img.jpg)
+
+In Mobile
+![GitHub Logo](/mobile.png)
 
 ## Setup
 
