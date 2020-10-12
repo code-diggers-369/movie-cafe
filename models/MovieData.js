@@ -45,6 +45,9 @@ const MovieDataSchema = mongoose.Schema({
     required: true,
     type: String,
   },
+  SeriesList: {
+    type: Array,
+  },
 });
 
 module.exports = mongoose.model("MovieData", MovieDataSchema);

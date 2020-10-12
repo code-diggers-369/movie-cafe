@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+
 import { Link } from "react-router-dom";
 
 import "./List.css";
@@ -7,8 +7,6 @@ import "./List.css";
 export default function List(props) {
   const { data, filter } = props;
   const [count, setcount] = useState(8);
-
-  const dispatch = useDispatch();
 
   const finalData = data ? data.slice(0, count) : null;
 
@@ -19,10 +17,11 @@ export default function List(props) {
     };
   }, []);
 
-  const trackScrolling = () => {
+  const trackScrolling = async () => {
     const listDiv = document.getElementById("scroll-tracker");
+
     if (isBottom(listDiv)) {
-      setcount((value) => value + 8);
+      setcount((state) => state + 8);
     }
   };
 
@@ -31,10 +30,10 @@ export default function List(props) {
   };
 
   return (
-    <div className="text-light">
+    <div className="text-light" id="scroll-tracker">
       <h1 className="text-center mt-4">{filter.toUpperCase()}</h1>
 
-      <div className="row mt-5 " id="scroll-tracker">
+      <div className="row mt-5 ">
         {finalData
           ? finalData.map((list, i) => (
               <div key={i} className="col-lg-3 col-md-6 col-sm-6">

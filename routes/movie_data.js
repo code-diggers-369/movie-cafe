@@ -17,6 +17,7 @@ Router.post("/add", async (req, res) => {
       screenShotList,
       downloadLinkList,
       timestamp,
+      episodDownloadLinkList,
     } = req.body;
 
     if (secret === process.env.SECRET_CODE) {
@@ -32,6 +33,7 @@ Router.post("/add", async (req, res) => {
         OnlineWatch: onlineWatchingUrl,
         TimeStamp: timestamp,
         Wood: wood,
+        SeriesList: wood === "Series" ? episodDownloadLinkList : null,
       });
       data.save();
       res.json(data);
@@ -59,6 +61,7 @@ Router.post("/update", async (req, res) => {
       screenShotList,
       downloadLinkList,
       timestamp,
+      episodDownloadLinkList,
     } = req.body;
 
     if (secret === process.env.SECRET_CODE) {
@@ -77,6 +80,7 @@ Router.post("/update", async (req, res) => {
             OnlineWatch: onlineWatchingUrl,
             TimeStamp: timestamp,
             Wood: wood,
+            SeriesList: wood === "Series" ? episodDownloadLinkList : null,
           },
         }
       );

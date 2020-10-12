@@ -9,6 +9,8 @@ export default function DownloadPage() {
 
   const [data, setdata] = useState("");
 
+  const [seasonsNumberCount, setSeasonsNumberCount] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,6 +18,10 @@ export default function DownloadPage() {
 
         await setdata(dt[0]);
         document.title = dt[0].Name;
+
+        if (dt[0].Wood === "Series") {
+          setSeasonAndEpisod(dt[0].SeriesList);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -26,6 +32,22 @@ export default function DownloadPage() {
       document.title = "Movie Cafe";
     };
   }, []);
+
+  const setSeasonAndEpisod = async (list) => {
+    try {
+      const seasonCount = [];
+
+      list.map((ls) => {
+        if (!seasonCount.includes(ls.Season)) {
+          seasonCount.push(ls.Season);
+        }
+      });
+
+      setSeasonsNumberCount(seasonCount);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const size = data ? data.Quality.split("|") : [];
 
@@ -85,16 +107,44 @@ export default function DownloadPage() {
               <h2>Download Links</h2>
             </div>
 
-            {data.DownloadLink.map((list, i) => (
-              <a
-                key={i}
-                href={list.Url}
-                target="_blank"
-                className="btn btn-block btn-light"
-              >
-                {list.Quality}
-              </a>
-            ))}
+            {data.DownloadLink
+              ? data.DownloadLink.map((list, i) => (
+                  <a
+                    key={i}
+                    href={list.Url}
+                    target="_blank"
+                    className="btn btn-block btn-light"
+                  >
+                    {size[i]}
+                  </a>
+                ))
+              : null}
+
+            {data.SeriesList && seasonsNumberCount
+              ? seasonsNumberCount.map((l, i) => {
+                  return (
+                    <div key={i}>
+                      <h4>Season {l}</h4>
+
+                      {data.SeriesList.map((list, index) => {
+                        if (list.Season === l) {
+                          return (
+                            <div key={index}>
+                              <a
+                                href={list.Url}
+                                target="_blank"
+                                className="btn btn-block btn-light mt-2"
+                              >
+                                <h5>Episod {list.Episod}</h5>
+                              </a>
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  );
+                })
+              : null}
           </div>
 
           {data.OnlineWatch !== "null" ? (

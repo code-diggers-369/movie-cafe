@@ -9,8 +9,11 @@ export default function Add() {
   const [screenshot, setscreenshot] = useState("");
 
   const [downloadLinkList, setdownloadLinkList] = useState([]);
+  const [episodDownloadLinkList, setEpisodDownloadLinkList] = useState([]);
+
   const [downloadLink, setdownloadLink] = useState("");
   const [quality, setquality] = useState("480p");
+  const [episodDownloadLink, setEpisodDownloadLink] = useState("");
 
   // main data
   const [name, setname] = useState("");
@@ -18,6 +21,8 @@ export default function Add() {
 
   const [language, setlanguage] = useState("Hindi");
   const [wood, setwood] = useState("Bollywood");
+  const [season, setSeason] = useState(1);
+  const [episod, setEpisod] = useState(1);
 
   const [thumblainImg, setthumblainImg] = useState("");
   const [trailerVideoId, settrailerVideoId] = useState("");
@@ -36,6 +41,15 @@ export default function Add() {
       });
 
       setdownloadLink("");
+    } else if (type === "episod-link") {
+      episodDownloadLinkList.push({
+        Quality: quality,
+        Url: episodDownloadLink,
+        Episod: episod,
+        Season: parseInt(season),
+      });
+
+      setEpisodDownloadLink("");
     }
   };
 
@@ -54,6 +68,14 @@ export default function Add() {
         }
       });
       setdownloadLinkList(listFilter);
+    } else if (type === "episod-link") {
+      const listFilter = episodDownloadLinkList.filter((list, i) => {
+        if (index !== i) {
+          return list;
+        }
+      });
+
+      setEpisodDownloadLinkList(listFilter);
     }
   };
 
@@ -67,8 +89,7 @@ export default function Add() {
       trailerVideoId &&
       movieQuality &&
       onlineWatchingUrl &&
-      screenShotList.length > 0 &&
-      downloadLinkList.length > 0
+      screenShotList.length > 0
     ) {
       const secret = localStorage.getItem("Site_New_Tokken");
       const trailerUrl = `https://www.youtube.com/embed/${trailerVideoId}`;
@@ -88,6 +109,7 @@ export default function Add() {
         screenShotList,
         downloadLinkList,
         timestamp,
+        episodDownloadLinkList,
       });
 
       console.log(res);
@@ -155,6 +177,94 @@ export default function Add() {
           </select>
         </div>
 
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/* season wise */}
+        {wood && wood === "Series" ? (
+          <div className="list-input mt-5">
+            <div className="mt-5 text-center custom-list p-2">
+              <h4>Season Wise</h4>
+              <hr className="bg-light" />
+              {/*  */}
+              <div className="form-group">
+                <h4>Season Number</h4>
+
+                <input
+                  type="text"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                  placeholder="Season Number"
+                  value={season}
+                  onChange={(e) => setSeason(e.target.value)}
+                />
+              </div>
+              <br />
+              <div className=" mb-4">
+                <div className="d-flex">
+                  <input
+                    className="form-control mr-1"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter Episod  Number"
+                    value={episod}
+                    onChange={(e) => setEpisod(e.target.value)}
+                  />
+
+                  <input
+                    className="form-control"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter Episod Download Links"
+                    value={episodDownloadLink}
+                    onChange={(e) => setEpisodDownloadLink(e.target.value)}
+                  />
+
+                  <select
+                    value={quality}
+                    onChange={(e) => setquality(e.target.value)}
+                    className="browser-default custom-select ml-3"
+                  >
+                    <option disabled>Quality</option>
+                    <option>480p</option>
+                    <option>720p</option>
+                    <option>1080p</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={() => addToList("episod-link")}
+                  className="btn btn-block btn-outline-light mt-3"
+                  type="button"
+                >
+                  Add
+                </button>
+              </div>
+
+              {episodDownloadLinkList.length > 0 ? (
+                <ol>
+                  {episodDownloadLinkList.map((list, i) => (
+                    <li className="mt-2" key={i}>
+                      Quality - {list.Quality} : Url - {list.Url} : Episod -{" "}
+                      {list.Episod} : Season - {list.Season}
+                      <button
+                        onClick={() => removeFromList("episod-link", i)}
+                        className="btn btn-outline-light ml-2"
+                        type="button"
+                      >
+                        DEL
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <h6>No Links</h6>
+              )}
+            </div>
+          </div>
+        ) : null}
+
+        {/*  */}
         <div className="form-group">
           <h4 className="mt-5">Thumbnail</h4>
           <input
@@ -247,67 +357,69 @@ export default function Add() {
 
         {/* download links */}
 
-        <div className="list-input mt-5">
-          <div className="mt-5 text-center custom-list p-2">
-            <h4>Download Links</h4>
-            <hr className="bg-light" />
+        {wood && wood !== "Series" ? (
+          <div className="list-input mt-5">
+            <div className="mt-5 text-center custom-list p-2">
+              <h4>Download Links</h4>
+              <hr className="bg-light" />
 
-            <div className=" mb-4">
-              <div className="d-flex">
-                <input
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter Download Links"
-                  value={downloadLink}
-                  onChange={(e) => setdownloadLink(e.target.value)}
-                  onKeyUp={(e) => {
-                    if (e.keyCode === 13) {
-                      addToList("download-link");
-                    }
-                  }}
-                />
+              <div className=" mb-4">
+                <div className="d-flex">
+                  <input
+                    className="form-control"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter Download Links"
+                    value={downloadLink}
+                    onChange={(e) => setdownloadLink(e.target.value)}
+                    onKeyUp={(e) => {
+                      if (e.keyCode === 13) {
+                        addToList("download-link");
+                      }
+                    }}
+                  />
 
-                <select
-                  value={quality}
-                  onChange={(e) => setquality(e.target.value)}
-                  className="browser-default custom-select ml-3"
+                  <select
+                    value={quality}
+                    onChange={(e) => setquality(e.target.value)}
+                    className="browser-default custom-select ml-3"
+                  >
+                    <option disabled>Quality</option>
+                    <option>480p</option>
+                    <option>720p</option>
+                    <option>1080p</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={() => addToList("download-link")}
+                  className="btn btn-block btn-outline-light mt-3"
+                  type="button"
                 >
-                  <option disabled>Quality</option>
-                  <option>480p</option>
-                  <option>720p</option>
-                  <option>1080p</option>
-                </select>
+                  Add
+                </button>
               </div>
 
-              <button
-                onClick={() => addToList("download-link")}
-                className="btn btn-block btn-outline-light mt-3"
-                type="button"
-              >
-                Add
-              </button>
+              {downloadLinkList.length > 0 ? (
+                <ol>
+                  {downloadLinkList.map((list, i) => (
+                    <li className="mt-2" key={i}>
+                      Quality - {list.Quality} : Url - {list.Url}
+                      <button
+                        onClick={() => removeFromList("download-link", i)}
+                        className="btn btn-outline-light ml-2"
+                        type="button"
+                      >
+                        DEL
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <h6>No Download Links</h6>
+              )}
             </div>
-
-            {downloadLinkList.length > 0 ? (
-              <ol>
-                {downloadLinkList.map((list, i) => (
-                  <li className="mt-2" key={i}>
-                    Quality - {list.Quality} : Url - {list.Url}
-                    <button
-                      onClick={() => removeFromList("download-link", i)}
-                      className="btn btn-outline-light ml-2"
-                      type="button"
-                    >
-                      DEL
-                    </button>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <h6>No Download Links</h6>
-            )}
           </div>
-        </div>
+        ) : null}
       </form>
 
       <button
